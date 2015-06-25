@@ -112,3 +112,4 @@ local.properties
 .recommenders
 .classpath
 /bin/
+.project
