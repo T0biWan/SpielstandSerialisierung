@@ -31,7 +31,6 @@ public class InputAndOutput {
 			System.out.println("\"output/Latrunculi.spielplan\" konnte nicht gefunden werden");
 			return null;
 		}
-
 	}
 
 }

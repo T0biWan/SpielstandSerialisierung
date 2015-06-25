@@ -38,10 +38,24 @@ public class Spielstein implements Serializable {
 		return position;
 	}
 	
-
+	public int getXPosition() {
+		return position[0];
+	}
+	
+	public int getYPosition() {
+		return position[1];
+	}
 
 	public void setPosition(int[] position) {
 		this.position = position;
+	}
+	
+	public void setXPosition(int xPosition) {
+		this.position[0] = xPosition;
+	}
+	
+	public void setYPosition(int yPosition) {
+		this.position[1] = yPosition;
 	}
 	
 	//toString

@@ -24,8 +24,13 @@ public class Spielfeld implements Serializable{
 		
 	}
 	
-	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yBreiteNeu) {
-		
+	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
+		for(Spielstein stein : spielfeld) {
+			if(stein.getXPosition() == xBreiteAlt && stein.getYPosition() == yHöheAlt) {
+				stein.setXPosition(xBreiteNeu);
+				stein.setYPosition(yHöheNeu);
+			}
+		}
 	}
 	
 	//Methoden
