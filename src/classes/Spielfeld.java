@@ -10,6 +10,9 @@ public class Spielfeld implements Serializable {
 	// Attribute
 	List<Spielstein> spielfeld = new ArrayList();
 	private static final long serialVersionUID = 1L;
+	private String nameBlau;
+	private String nameRot;
+	private int runden;
 
 	// Konstruktoren
 	public Spielfeld() {
@@ -23,7 +26,32 @@ public class Spielfeld implements Serializable {
 		}
 	}
 
-	// Methoden	
+	// Methoden
+	public String getNameBlau() {
+		return nameBlau;
+	}
+
+	public void setNameBlau(String nameBlau) {
+		this.nameBlau = nameBlau;
+	}
+
+	public String getNameRot() {
+		return nameRot;
+	}
+
+	public void setNameRot(String nameRot) {
+		this.nameRot = nameRot;
+	}
+
+	public int getRunden() {
+		return runden;
+	}
+
+	public void setRunden(int runden) {
+		this.runden = runden;
+	}
+	
+	
 	//Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
 	public Spielstein searchStein(int x, int y) {
 		for (Spielstein stein : spielfeld) {
@@ -65,8 +93,8 @@ public class Spielfeld implements Serializable {
 	}
 
 	public void grafischeDarstellung() {
-		System.out.println("***************\n***************");
-		System.out.println("#|0|1|2|3|4|5|6");
+		System.out.println("****************\n****************");
+		System.out.println("#|0|1|2|3|4|5|6|");
 		for (int j = 0; j < 7; j++) {
 			System.out.print(j);
 			for (int i = 0; i < 7; i++) {
@@ -85,7 +113,7 @@ public class Spielfeld implements Serializable {
 			}
 			System.out.print("|\n");
 		}
-		System.out.println("***************\n***************");
+		System.out.println("****************\n****************");
 	}
 
 	//Es gibt sicherlich eine elegantere Lösung, zum Beispiel innerhalb der Search Methode darauf reagieren, das kein Stein gefunden wurde...
