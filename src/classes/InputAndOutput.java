@@ -8,27 +8,27 @@ import java.io.ObjectOutputStream;
 
 public class InputAndOutput {
 	//Methoden
-	public void writeSpielfeld(Spielfeld spielfeld) {
+	public void writeSpielfeld(Spielfeld spielfeld, String dateiname) {
 		try {
-			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("output/Latrunculi.spielfeld"));
+			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("output/" + dateiname + ".spielfeld"));
 			output.writeObject(spielfeld);
 			output.close();
 
 		} catch (IOException e) {
-			System.out.println("\"output/Latrunculi.spielplan\" konnte nicht gefunden werden");
+			System.out.println("\"output/" + dateiname + ".spielplan\" konnte nicht gefunden werden");
 		}
 	}
 
-	public Spielfeld readSpielfeld() {
+	public Spielfeld readSpielfeld(String dateiname) {
 		Spielfeld spielfeld;
 		ObjectInputStream input;
 		try {
-			input = new ObjectInputStream(new FileInputStream("output/Latrunculi.spielfeld"));
+			input = new ObjectInputStream(new FileInputStream("output/" + dateiname + ".spielfeld"));
 			spielfeld = (Spielfeld) input.readObject();
 			input.close();
 			return spielfeld;
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("\"output/Latrunculi.spielplan\" konnte nicht gefunden werden");
+			System.out.println("\"output/" + dateiname + ".spielplan\" konnte nicht gefunden werden");
 			return null;
 		}
 	}

@@ -9,22 +9,22 @@ import enums.Farbe;
 
 public class Spielfeld implements Serializable{
 	//Attribute
+	//
 	List<Spielstein> spielfeld = new ArrayList();
+	private static final long serialVersionUID = 1L;
 	
 	//Konstruktoren
-	public Spielfeld (int xBreite) {
-		for(int i = 0; i < xBreite; i++) {
+	public Spielfeld () {
+		//Generiert Startzustand.
+		for(int i = 0; i < 7; i++) {
 			spielfeld.add(new Spielstein(Farbe.Rot, i, 0));
 		}
 		
-		for(int i = 0; i < xBreite; i++) {
+		for(int i = 0; i < 7; i++) {
 			spielfeld.add(new Spielstein(Farbe.Blau, i, 6));
 		} 
 	}
 	
-	public Spielfeld() {
-		
-	}
 	
 	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
 		for(Spielstein stein : spielfeld) {
