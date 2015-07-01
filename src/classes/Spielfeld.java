@@ -31,12 +31,10 @@ public class Spielfeld implements Serializable {
 				stein.setYPosition(yHöheNeu);
 			}
 		}
-		grafischeDarstellung();
-		
 	}
 
 	public void grafischeDarstellung() {
-		System.out.println("***************");
+		System.out.println("***************\n***************");
 		for (int j = 0; j < 7; j++) {
 			for (int i = 0; i < 7; i++) {
 				Boolean gefunden = false;
@@ -53,7 +51,7 @@ public class Spielfeld implements Serializable {
 			}
 			System.out.print("|\n");
 		}
-		System.out.println("***************");
+		System.out.println("***************\n***************");
 	}
 
 	// Methoden
