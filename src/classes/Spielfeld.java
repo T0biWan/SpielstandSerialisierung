@@ -1,6 +1,5 @@
 package classes;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import enums.Farbe;
 
 public class Spielfeld implements Serializable{
 	//Attribute
-	//
 	List<Spielstein> spielfeld = new ArrayList();
 	private static final long serialVersionUID = 1L;
 	
@@ -33,6 +31,10 @@ public class Spielfeld implements Serializable{
 				stein.setYPosition(yHöheNeu);
 			}
 		}
+	}
+	
+	public void zug(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu, String dateiname) {
+		steinZiehen(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu);
 	}
 	
 	//Methoden
