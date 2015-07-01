@@ -23,8 +23,7 @@ public class Spielfeld implements Serializable {
 		}
 	}
 
-	// Methoden
-	
+	// Methoden	
 	//Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
 	public Spielstein searchStein(int x, int y) {
 		for (Spielstein stein : spielfeld) {
@@ -34,7 +33,6 @@ public class Spielfeld implements Serializable {
 		}
 		return null;
 	}
-	
 	
 	public Boolean spielzugLegal(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
 		if(xBreiteAlt > -1 && xBreiteAlt < 8 && yHöheAlt > -1 && yHöheAlt < 8 && xBreiteNeu > -1 && xBreiteNeu < 8 && yHöheNeu > -1 && yHöheNeu < 8) {
@@ -54,8 +52,8 @@ public class Spielfeld implements Serializable {
 		}
 		return false;
 	}
-	
-	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {	
+
+	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
 		if(spielzugLegal(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
 			Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);
 			if(stein != null) {
