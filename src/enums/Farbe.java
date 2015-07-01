@@ -1,4 +1,4 @@
-package classes;
+package enums;
 
 public enum Farbe {
 	Blau, Rot

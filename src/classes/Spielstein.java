@@ -2,6 +2,8 @@ package classes;
 
 import java.io.Serializable;
 
+import enums.Farbe;
+
 //Klasse soll abstract sein: Skript Seite 11
 public class Spielstein implements Serializable {
 	// Attribute müssen alle serialisierbar sein

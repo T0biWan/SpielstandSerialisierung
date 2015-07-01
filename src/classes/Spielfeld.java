@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.Farbe;
+
 public class Spielfeld implements Serializable{
 	//Attribute
 	List<Spielstein> spielfeld = new ArrayList();

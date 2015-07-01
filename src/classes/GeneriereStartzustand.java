@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import enums.Farbe;
+
 public class GeneriereStartzustand {
 	//Attribute
 	Spielfeld spielfeld = new Spielfeld();
