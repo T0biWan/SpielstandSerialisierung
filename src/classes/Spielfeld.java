@@ -63,12 +63,21 @@ public class Spielfeld implements Serializable {
 	}
 	
 	public Boolean spielzugLegal(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		if(xBreiteAlt > -1 && xBreiteAlt < 8 && yHöheAlt > -1 && yHöheAlt < 8 && xBreiteNeu > -1 && xBreiteNeu < 8 && yHöheNeu > -1 && yHöheNeu < 8) {
-			if(feldFrei(xBreiteNeu, yHöheNeu)) {
-				if(xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
-					return true;
+		if(imWertebereich(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
+			if(spielerFarbeStimmt(xBreiteAlt, yHöheAlt)) {
+				if(feldFrei(xBreiteNeu, yHöheNeu)) {
+					if(xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
+						return true;
+					}
 				}
 			}
+		}
+		return false;
+	}
+	
+	public Boolean imWertebereich(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
+		if(xBreiteAlt > -1 && xBreiteAlt < 8 && yHöheAlt > -1 && yHöheAlt < 8 && xBreiteNeu > -1 && xBreiteNeu < 8 && yHöheNeu > -1 && yHöheNeu < 8) {
+			return true;
 		}
 		return false;
 	}
@@ -81,6 +90,20 @@ public class Spielfeld implements Serializable {
 		return false;
 	}
 
+	public Boolean spielerFarbeStimmt(int xBreiteAlt, int yHöheAlt) {
+		Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);
+		if(runden % 2 == 0) {
+			if(stein.getFarbe() == Farbe.Blau) {
+				return true;
+			}
+		} else {
+			if(stein.getFarbe() == Farbe.Rot) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
 		if(spielzugLegal(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
 			Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);

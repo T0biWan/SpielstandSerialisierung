@@ -73,7 +73,8 @@ public class Latrunculi {
 				System.out.println("# 1. Die Koordinaten müssen zwischen 0 und 5 liegen.");
 				System.out.println("# 2. Es kann nur auf ein leeres Feld gezogen werden.");
 				System.out.println("# 3. Ein Spielstein kann nur ein Feld weitgehen.");
-				System.out.println("# 4. Ein Spielstein kann sich nur horizontal oder vertikal bewegen.\n#");
+				System.out.println("# 4. Ein Spielstein kann sich nur horizontal oder vertikal bewegen.");
+				System.out.println("# 5. Es dürfen nur Spielsteine der eigenen Farbe gezogen werden.\n#");
 				System.out.println("# Versuch es noch einmal.");
 				System.out.println("--------------------------------------------------------------------------------");
 				System.out.println();
