@@ -8,7 +8,7 @@ public class Spielablauf {
 	String dateiname = "spielstand";
 	
 	public void spielzüge() {
-		System.out.println(blau);
+		blau.grafischeDarstellung();
 		
 		blau.steinZiehen(3, 0, 3, 1);
 		io.writeSpielfeld(blau, dateiname);
@@ -50,6 +50,5 @@ public class Spielablauf {
 		io.writeSpielfeld(rot, dateiname);
 		
 		blau = io.readSpielfeld(dateiname);
-		System.out.println("Nach zehn Spielzügen:\n" + blau);
 	}
 }
