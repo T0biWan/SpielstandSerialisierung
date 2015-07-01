@@ -24,6 +24,7 @@ public class Spielfeld implements Serializable {
 	}
 
 	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
+		
 		for (Spielstein stein : spielfeld) {
 			if (stein.getXPosition() == xBreiteAlt && stein.getYPosition() == yHöheAlt) {
 				stein.setXPosition(xBreiteNeu);
@@ -36,8 +37,8 @@ public class Spielfeld implements Serializable {
 
 	public void grafischeDarstellung() {
 		System.out.println("***************");
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 7; j++) {
+		for (int j = 0; j < 7; j++) {
+			for (int i = 0; i < 7; i++) {
 				Boolean gefunden = false;
 				for (Spielstein stein : spielfeld) {
 					if (stein.getXPosition() == i && stein.getYPosition() == j) {
