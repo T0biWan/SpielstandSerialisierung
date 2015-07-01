@@ -10,7 +10,7 @@ public class Latrunculi {
 	//Methoden
 	public static void main(String [] args) {
 		//Attribute
-		String dateipfad = "output/latruncul.spielfeld";
+		String dateipfad = "output/latrunculi.spielfeld";
 		Spielfeld spielfeld;
 		InputAndOutput io = new InputAndOutput();
 		Scanner scanner = new Scanner(System.in);
@@ -22,6 +22,7 @@ public class Latrunculi {
 		//Spielfeld einlesen
 		//Falls es die Datei zum einlesen nicht gibt,
 		//wird ein neues Spiel in Startaufstellung konstruiert.
+		//Wir haben ja darüber geredet es mit einer if-Abfrage zu machen, allerdings verlangen io-Streams immer Exception Handling...?
 		try {
 			spielfeld = io.readSpielfeld(dateipfad);
 		} catch (IOException | ClassNotFoundException e) {
@@ -46,6 +47,10 @@ public class Latrunculi {
 		
 		//Zug machen
 		spielfeld.steinZiehen(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu);
+		
+		//Schlagen
+		spielfeld.steinSchlagen(xBreiteNeu, yHöheNeu);
+		spielfeld.grafischeDarstellung();
 		System.out.println("\nZug beendet.");
 		
 		try {

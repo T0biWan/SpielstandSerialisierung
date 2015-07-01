@@ -23,20 +23,33 @@ public class Spielfeld implements Serializable {
 		}
 	}
 
-	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		
+	
+	public Spielstein searchStein(int x, int y) {
 		for (Spielstein stein : spielfeld) {
-			if (stein.getXPosition() == xBreiteAlt && stein.getYPosition() == yHöheAlt) {
-				stein.setXPosition(xBreiteNeu);
-				stein.setYPosition(yHöheNeu);
+			if (stein.getXPosition() == x && stein.getYPosition() == y) {
+				return stein;
 			}
 		}
+		return null;
 	}
+	
+	// Methoden
+	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {	
+		Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);
+		if(stein != null) {
+			stein.setXPosition(xBreiteNeu);
+			stein.setYPosition(yHöheNeu);
+		}
+	}
+	
 
 	public void grafischeDarstellung() {
 		System.out.println("***************\n***************");
+		System.out.println("#|0|1|2|3|4|5|6");
 		for (int j = 0; j < 7; j++) {
+			System.out.print(j);
 			for (int i = 0; i < 7; i++) {
+				
 				Boolean gefunden = false;
 				for (Spielstein stein : spielfeld) {
 					if (stein.getXPosition() == i && stein.getYPosition() == j) {
@@ -54,7 +67,105 @@ public class Spielfeld implements Serializable {
 		System.out.println("***************\n***************");
 	}
 
-	// Methoden
+	//Es gibt sicherlich eine elegantere Lösung, zum Beispiel innerhalb der Search Methode darauf reagieren, das kein Stein gefunden wurde...
+	public boolean schlagbarOben(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein steinOben = searchStein(xBreiteNeu, yHöheNeu - 1);
+			if(steinOben != null) {
+				Spielstein steinObenOben = searchStein(xBreiteNeu, yHöheNeu - 2);
+				if(steinObenOben != null) {
+					if(steinfarbe != steinOben.getFarbe()) {
+						if(steinfarbe == steinObenOben.getFarbe()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean schlagbarUnten(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein steinUnten = searchStein(xBreiteNeu, yHöheNeu + 1);
+			if(steinUnten != null) {
+				Spielstein steinUntenUnten = searchStein(xBreiteNeu, yHöheNeu + 2);
+				if(steinUntenUnten != null) {
+					if(steinfarbe != steinUnten.getFarbe()) {
+						if(steinfarbe == steinUntenUnten.getFarbe()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean schlagbarLinks(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein steinLinks = searchStein(xBreiteNeu - 1, yHöheNeu);
+			if(steinLinks != null) {
+				Spielstein steinLinksLinks = searchStein(xBreiteNeu - 2, yHöheNeu);
+				if(steinLinksLinks != null) {
+					if(steinfarbe != steinLinks.getFarbe()) {
+						if(steinfarbe == steinLinksLinks.getFarbe()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean schlagbarRechts(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein steinRechts = searchStein(xBreiteNeu + 1, yHöheNeu);
+			if(steinRechts != null) {
+				Spielstein steinRechtsRechts = searchStein(xBreiteNeu + 2, yHöheNeu);
+				if(steinRechtsRechts != null) {
+					if(steinfarbe != steinRechts.getFarbe()) {
+						if(steinfarbe == steinRechtsRechts.getFarbe()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public void steinSchlagen(int xBreiteNeu, int yHöheNeu) {
+		if(schlagbarOben(xBreiteNeu, yHöheNeu)) {
+			Spielstein steinOben = searchStein(xBreiteNeu, yHöheNeu - 1);
+			spielfeld.remove(steinOben);
+		}
+		
+		if(schlagbarUnten(xBreiteNeu, yHöheNeu)) {
+			Spielstein steinUnten = searchStein(xBreiteNeu, yHöheNeu + 1);
+			spielfeld.remove(steinUnten);
+		}
+		
+		if(schlagbarLinks(xBreiteNeu, yHöheNeu)) {
+			Spielstein steinLinks = searchStein(xBreiteNeu - 1, yHöheNeu);
+			spielfeld.remove(steinLinks);
+		}
+		
+		if(schlagbarRechts(xBreiteNeu, yHöheNeu)) {
+			Spielstein steinRechts = searchStein(xBreiteNeu + 1, yHöheNeu);
+			spielfeld.remove(steinRechts);
+		}
+	}
+	
 	public String toString() {
 		String string = "**************************************************\n";
 		for (Spielstein index : spielfeld) {
