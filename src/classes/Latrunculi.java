@@ -24,7 +24,6 @@ public class Latrunculi {
 		//Falls es die Datei zum einlesen nicht gibt,
 		//wird ein neues Spiel in Startaufstellung konstruiert.
 		//Wir haben ja darüber geredet es mit einer if-Abfrage zu machen, allerdings verlangen io-Streams immer Exception Handling...?
-		System.out.println("Willkomen bei Latrunculi!");
 		try {
 			spielfeld = io.readSpielfeld(dateipfad);
 		} catch (IOException | ClassNotFoundException e) {
@@ -36,6 +35,7 @@ public class Latrunculi {
 		if(spielfeld.siegerehrung()) {
 		} else {
 			//Konsolenausgabe
+			System.out.println("Willkomen bei Latrunculi!");
 			//In den ersten beiden Runden werden die Spieler nach ihrem Namen gefragt und sie bekommen ihre Farbe zugewiesen
 			if (spielfeld.getRunden() > 1) {
 				System.out.println("Runde: #" + spielfeld.getRunden());
@@ -101,7 +101,7 @@ public class Latrunculi {
 			spielfeld.steinSchlagen(xBreiteNeu, yHöheNeu);
 			
 			spielfeld.grafischeDarstellung();
-			System.out.println("Zug beendet.");
+			System.out.println("Zug beendet.\n");
 			spielfeld.setRunden(spielfeld.getRunden()+1);
 			
 			//Hat ein Spieler gesiegt?

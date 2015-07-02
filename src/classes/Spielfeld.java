@@ -342,13 +342,17 @@ public class Spielfeld implements Serializable {
 	public Boolean siegerehrung() {
 		partieZuEnde();
 		if(getSiegBlau() || getSiegRot()) {
-			System.out.print("Nice, ");
+			System.out.println("--------------------------------------------------");
+			System.out.println("--------------------------------------------------\n");
+			System.out.print("\tFick die Henne, ");
 			if(getSiegBlau()) {
 				System.out.print(getNameBlau());
 			} else if (getSiegRot()) {
 				System.out.print(getNameRot());
 			}
-			System.out.println(" du hast gewonnen!\nDas Spiel ging " + getRunden() + " Runden.");
+			System.out.println(" du hast gewonnen!\n\tDas Spiel ging " + getRunden() + " Runden.");
+			System.out.println("\n--------------------------------------------------");
+			System.out.println("--------------------------------------------------");
 			return true;
 		}
 		return false;
