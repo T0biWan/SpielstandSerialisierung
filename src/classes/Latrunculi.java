@@ -46,6 +46,7 @@ public class Latrunculi {
 			//Konsolenausgabe
 			//In den ersten beiden Runden werden die Spieler nach ihrem Namen gefragt und sie bekommen ihre Farbe zugewiesen
 			if (spielfeld.getRunden() > 1) {
+				System.out.println("Runde: #" + spielfeld.getRunden());
 				if(spielfeld.getRunden() % 2 == 0) {
 					System.out.println(spielfeld.getNameBlau() + " (Blau)\n");
 				} else {
@@ -108,7 +109,7 @@ public class Latrunculi {
 			spielfeld.steinSchlagen(xBreiteNeu, yHöheNeu);
 			
 			spielfeld.grafischeDarstellung();
-			System.out.println("\nZug beendet.");
+			System.out.println("Zug beendet.");
 			spielfeld.setRunden(spielfeld.getRunden()+1);
 			
 			//Hat ein Spieler gesiegt?
