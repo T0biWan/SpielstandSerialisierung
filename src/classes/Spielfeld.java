@@ -15,8 +15,6 @@ public class Spielfeld implements Serializable {
 	private int runden;
 	
 	//private machen
-	public Spielstein [] steinGeschlagenBlau = new Spielstein [7];
-	public Spielstein [] steinGeschlagenRot = new Spielstein [7];
 	public List<Spielstein> geschlageneSteine = new ArrayList();
 
 	// Konstruktoren
