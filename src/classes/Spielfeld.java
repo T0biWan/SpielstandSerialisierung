@@ -8,15 +8,15 @@ import enums.Farbe;
 
 public class Spielfeld implements Serializable {
 	// Attribute
-	List<Spielstein> spielfeld = new ArrayList();
+	protected List<Spielstein> spielfeld = new ArrayList();
 	private static final long serialVersionUID = 1L;
 	private String nameBlau;
 	private String nameRot;
 	private int runden;
 	
-	//private machen
-	public List<Spielstein> geschlageneSteineBlau = new ArrayList();
-	public List<Spielstein> geschlageneSteineRot = new ArrayList();
+	//private machen?
+	protected List<Spielstein> geschlageneSteineBlau = new ArrayList();
+	protected List<Spielstein> geschlageneSteineRot = new ArrayList();
 
 	// Konstruktoren
 	public Spielfeld() {
@@ -54,8 +54,6 @@ public class Spielfeld implements Serializable {
 	public void setRunden(int runden) {
 		this.runden = runden;
 	}
-	
-//	public Spielstein getSteinGeschlagenBlau
 	
 	//Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
 	public Spielstein searchStein(int x, int y) {
