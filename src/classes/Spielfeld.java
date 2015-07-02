@@ -8,15 +8,15 @@ import enums.Farbe;
 
 public class Spielfeld implements Serializable {
 	// Attribute
-	protected List<Spielstein> spielfeld = new ArrayList();
-	private static final long serialVersionUID = 1L;
-	private String nameBlau;
-	private String nameRot;
-	private int runden;
-	
-	//private machen?
-	protected List<Spielstein> geschlageneSteineBlau = new ArrayList();
-	protected List<Spielstein> geschlageneSteineRot = new ArrayList();
+	protected List<Spielstein>	spielfeld = new ArrayList();
+	private static final long	serialVersionUID = 1L;
+	private String				nameBlau;
+	private String				nameRot;
+	private int					runden;
+	private Boolean				siegBlau = false;
+	private Boolean				siegRot = false;
+	protected List<Spielstein>	geschlageneSteineBlau = new ArrayList();
+	protected List<Spielstein>	geschlageneSteineRot = new ArrayList();
 
 	// Konstruktoren
 	public Spielfeld() {
@@ -55,8 +55,24 @@ public class Spielfeld implements Serializable {
 		this.runden = runden;
 	}
 	
+	public Boolean getSiegBlau() {
+		return siegBlau;
+	}
+	
+	public void setSiegBlau(Boolean siegreich) {
+		this.siegBlau = siegreich;
+	}
+	
+	public Boolean getSiegRot() {
+		return siegRot;
+	}
+	
+	public void setSiegRot(Boolean siegreich) {
+		this.siegRot = siegreich;
+	}
+	
 	//Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
-	public Spielstein searchStein(int x, int y) {
+ 	public Spielstein searchStein(int x, int y) {
 		for (Spielstein stein : spielfeld) {
 			if (stein.getXPosition() == x && stein.getYPosition() == y) {
 				return stein;
@@ -313,13 +329,23 @@ public class Spielfeld implements Serializable {
 		}
 	}
 	
+	public void partieZuEnde() {
+		if(geschlageneSteineBlau.size() > 5) {
+			setSiegBlau(true);
+		}
+		
+		if(geschlageneSteineRot.size() > 5) {
+			setSiegRot(true);
+		}
+	}
+	
 	public String toString() {
 		String string = "**************************************************\n";
 		for (Spielstein index : spielfeld) {
 			string = string + index.toString()
 					+ "\n**************************************************\n";
 		}
-
 		return string;
 	}
+
 }
