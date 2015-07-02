@@ -281,6 +281,26 @@ public class Spielfeld implements Serializable {
 		}
 	}
 
+	public boolean hatJemandGewonnen() {
+
+		if (getSiegBlau() || getSiegRot()) {
+
+			String name;
+
+			if (getSiegBlau()) {
+				name = getNameBlau();
+			} else {
+				name = getNameRot();
+			}
+			System.out.println("Nice!");
+			System.out.println(name + " du hast gewonnen!\nDas Spiel ging "
+					+ getRunden() + ".");
+			return true;
+		}
+
+		return false;
+	}
+	
 	public String toString() {
 		String string = "**************************************************\n";
 		for (Spielstein index : spielfeld) {

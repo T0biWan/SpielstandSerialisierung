@@ -20,7 +20,7 @@ public class Latrunculi {
 
 		leseSpielfeldEin();
 
-		if (!hatJemandGewonnen()) {
+		if (!spielfeld.hatJemandGewonnen()) {
 			initRunde();
 			speicherSpielstand();
 		}
@@ -120,7 +120,7 @@ public class Latrunculi {
 		} while (spiele);
 
 		spielfeld.grafischeDarstellung();
-		hatJemandGewonnen();
+		spielfeld.hatJemandGewonnen();
 
 		scanner.close();
 		System.out.println("\nZug beendet.");
@@ -134,26 +134,6 @@ public class Latrunculi {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	private static boolean hatJemandGewonnen() {
-
-		if (spielfeld.getSiegBlau() || spielfeld.getSiegRot()) {
-
-			String name;
-
-			if (spielfeld.getSiegBlau()) {
-				name = spielfeld.getNameBlau();
-			} else {
-				name = spielfeld.getNameRot();
-			}
-			System.out.println("Nice!");
-			System.out.println(name + " du hast gewonnen!\nDas Spiel ging "
-					+ spielfeld.getRunden() + ".");
-			return true;
-		}
-
-		return false;
 	}
 	
 	private static void printRules() {
