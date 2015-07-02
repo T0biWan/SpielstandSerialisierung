@@ -339,6 +339,21 @@ public class Spielfeld implements Serializable {
 		}
 	}
 	
+	public Boolean siegerehrung() {
+		partieZuEnde();
+		if(getSiegBlau() || getSiegRot()) {
+			System.out.print("Nice, ");
+			if(getSiegBlau()) {
+				System.out.print(getNameBlau());
+			} else if (getSiegRot()) {
+				System.out.print(getNameRot());
+			}
+			System.out.println(" du hast gewonnen!\nDas Spiel ging " + getRunden() + " Runden.");
+			return true;
+		}
+		return false;
+	}
+	
 	public String toString() {
 		String string = "**************************************************\n";
 		for (Spielstein index : spielfeld) {

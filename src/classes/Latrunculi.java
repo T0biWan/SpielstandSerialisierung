@@ -33,15 +33,7 @@ public class Latrunculi {
 		}
 		
 		// Hat einer der Spieler bereits gewonnen?
-		if(spielfeld.getSiegBlau() || spielfeld.getSiegRot()) {
-			System.out.println("Nice!");
-			if(spielfeld.getSiegBlau()) {
-				System.out.print(spielfeld.getNameBlau());
-			} else if (spielfeld.getSiegRot()) {
-				System.out.print(spielfeld.getNameRot());
-			}
-			System.out.println(" du hast gewonnen!\nDas Spiel ging " + spielfeld.getRunden() + ".");
-			
+		if(spielfeld.siegerehrung()) {
 		} else {
 			//Konsolenausgabe
 			//In den ersten beiden Runden werden die Spieler nach ihrem Namen gefragt und sie bekommen ihre Farbe zugewiesen
@@ -113,7 +105,7 @@ public class Latrunculi {
 			spielfeld.setRunden(spielfeld.getRunden()+1);
 			
 			//Hat ein Spieler gesiegt?
-			spielfeld.partieZuEnde();
+			spielfeld.siegerehrung();
 		}
 		
 		//Speichern
