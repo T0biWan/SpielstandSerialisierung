@@ -66,14 +66,18 @@ public class Spielfeld implements Serializable {
 	}
 	
 	public Boolean spielzugLegal(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		if(imWertebereich(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
-			if(spielerFarbeStimmt(xBreiteAlt, yHöheAlt)) {
-				if(feldFrei(xBreiteNeu, yHöheNeu)) {
-					if(xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
-						return true;
+		try {
+			if (imWertebereich(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
+				if (spielerFarbeStimmt(xBreiteAlt, yHöheAlt)) {
+					if (feldFrei(xBreiteNeu, yHöheNeu)) {
+						if (xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
+							return true;
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			return false;
 		}
 		return false;
 	}
