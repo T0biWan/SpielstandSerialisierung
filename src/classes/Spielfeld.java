@@ -13,6 +13,11 @@ public class Spielfeld implements Serializable {
 	private String nameBlau;
 	private String nameRot;
 	private int runden;
+	
+	//private machen
+	public Spielstein [] steinGeschlagenBlau = new Spielstein [7];
+	public Spielstein [] steinGeschlagenRot = new Spielstein [7];
+	public List<Spielstein> geschlageneSteine = new ArrayList();
 
 	// Konstruktoren
 	public Spielfeld() {
@@ -51,6 +56,7 @@ public class Spielfeld implements Serializable {
 		this.runden = runden;
 	}
 	
+//	public Spielstein getSteinGeschlagenBlau
 	
 	//Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
 	public Spielstein searchStein(int x, int y) {
@@ -116,12 +122,33 @@ public class Spielfeld implements Serializable {
 	}
 
 	public void grafischeDarstellung() {
-		System.out.println("****************\n****************");
+		System.out.print("R");
+		for(int a = 0; a < geschlageneSteine.size(); a++) {
+			int zähler = 0;
+			Boolean gefunden = false;
+			for (Spielstein index : geschlageneSteine) {
+				if (index.getFarbe() == Farbe.Blau) {
+					System.out.print("|b");
+					gefunden = true;
+				}
+			}
+			if (!gefunden) {
+				System.out.print("| ");
+			}
+			zähler ++;
+			while (zähler < 7) {
+				System.out.print("| ");
+				zähler ++;
+			}
+		}
+		System.out.println("|");
+		
+		System.out.println("****************");
+		System.out.println("****************");
 		System.out.println("#|0|1|2|3|4|5|6|");
 		for (int j = 0; j < 7; j++) {
 			System.out.print(j);
 			for (int i = 0; i < 7; i++) {
-				
 				Boolean gefunden = false;
 				for (Spielstein stein : spielfeld) {
 					if (stein.getXPosition() == i && stein.getYPosition() == j) {
@@ -136,7 +163,30 @@ public class Spielfeld implements Serializable {
 			}
 			System.out.print("|\n");
 		}
-		System.out.println("****************\n****************");
+		System.out.println("****************");
+		System.out.println("****************");
+		
+		System.out.print("B");
+		for(int a = 0; a < geschlageneSteine.size(); a++) {
+			int zähler = 0;
+			Boolean gefunden = false;
+			for (Spielstein index : geschlageneSteine) {
+				if (index.getFarbe() == Farbe.Rot) {
+					System.out.print("|r");
+					gefunden = true;
+				}
+			}
+			if (!gefunden) {
+				System.out.print("| ");
+			}
+			zähler ++;
+			while (zähler < 7) {
+				System.out.print("| ");
+				zähler ++;
+			}
+		}
+		System.out.println("|");
+		System.out.println();
 	}
 
 	//Es gibt sicherlich eine elegantere Lösung, zum Beispiel innerhalb der Search Methode darauf reagieren, das kein Stein gefunden wurde...
@@ -219,21 +269,25 @@ public class Spielfeld implements Serializable {
 	public void steinSchlagen(int xBreiteNeu, int yHöheNeu) {
 		if(schlagbarOben(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinOben = searchStein(xBreiteNeu, yHöheNeu - 1);
+			geschlageneSteine.add(steinOben);
 			spielfeld.remove(steinOben);
 		}
 		
 		if(schlagbarUnten(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinUnten = searchStein(xBreiteNeu, yHöheNeu + 1);
+			geschlageneSteine.add(steinUnten);
 			spielfeld.remove(steinUnten);
 		}
 		
 		if(schlagbarLinks(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinLinks = searchStein(xBreiteNeu - 1, yHöheNeu);
+			geschlageneSteine.add(steinLinks);
 			spielfeld.remove(steinLinks);
 		}
 		
 		if(schlagbarRechts(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinRechts = searchStein(xBreiteNeu + 1, yHöheNeu);
+			geschlageneSteine.add(steinRechts);
 			spielfeld.remove(steinRechts);
 		}
 	}
