@@ -15,7 +15,8 @@ public class Spielfeld implements Serializable {
 	private int runden;
 	
 	//private machen
-	public List<Spielstein> geschlageneSteine = new ArrayList();
+	public List<Spielstein> geschlageneSteineBlau = new ArrayList();
+	public List<Spielstein> geschlageneSteineRot = new ArrayList();
 
 	// Konstruktoren
 	public Spielfeld() {
@@ -120,27 +121,30 @@ public class Spielfeld implements Serializable {
 	}
 
 	public void grafischeDarstellung() {
+		//Erstelle die Tabelle für die geschlagenen Steine
+		int zähler = 0;
 		System.out.print("R");
-		for(int a = 0; a < geschlageneSteine.size(); a++) {
-			int zähler = 0;
+		for (Spielstein index : geschlageneSteineBlau) {
 			Boolean gefunden = false;
-			for (Spielstein index : geschlageneSteine) {
-				if (index.getFarbe() == Farbe.Blau) {
-					System.out.print("|b");
-					gefunden = true;
-				}
+			if (index.getFarbe() == Farbe.Blau) {
+				System.out.print("|b");
+				gefunden = true;
 			}
 			if (!gefunden) {
 				System.out.print("| ");
 			}
-			zähler ++;
-			while (zähler < 7) {
-				System.out.print("| ");
-				zähler ++;
-			}
+			zähler++;
+		}
+		while (zähler < 7) {
+			System.out.print("| ");
+			zähler++;
+		}
+		if (zähler > 6) {
+			zähler = 0;
 		}
 		System.out.println("|");
 		
+		//Erstelle Spielfeld
 		System.out.println("****************");
 		System.out.println("****************");
 		System.out.println("#|0|1|2|3|4|5|6|");
@@ -164,24 +168,25 @@ public class Spielfeld implements Serializable {
 		System.out.println("****************");
 		System.out.println("****************");
 		
+		// Erstelle die Tabelle für die geschlagenen Steine
 		System.out.print("B");
-		for(int a = 0; a < geschlageneSteine.size(); a++) {
-			int zähler = 0;
+		for (Spielstein index : geschlageneSteineRot) {
 			Boolean gefunden = false;
-			for (Spielstein index : geschlageneSteine) {
-				if (index.getFarbe() == Farbe.Rot) {
-					System.out.print("|r");
-					gefunden = true;
-				}
+			if (index.getFarbe() == Farbe.Rot) {
+				System.out.print("|r");
+				gefunden = true;
 			}
 			if (!gefunden) {
 				System.out.print("| ");
 			}
-			zähler ++;
-			while (zähler < 7) {
-				System.out.print("| ");
-				zähler ++;
-			}
+			zähler++;
+		}
+		while (zähler < 7) {
+			System.out.print("| ");
+			zähler++;
+		}
+		if (zähler > 6) {
+			zähler = 0;
 		}
 		System.out.println("|");
 		System.out.println();
@@ -267,25 +272,41 @@ public class Spielfeld implements Serializable {
 	public void steinSchlagen(int xBreiteNeu, int yHöheNeu) {
 		if(schlagbarOben(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinOben = searchStein(xBreiteNeu, yHöheNeu - 1);
-			geschlageneSteine.add(steinOben);
+			if(steinOben.getFarbe() == Farbe.Blau) {
+				geschlageneSteineBlau.add(steinOben);
+			} else {
+				geschlageneSteineRot.add(steinOben);
+			}
 			spielfeld.remove(steinOben);
 		}
 		
 		if(schlagbarUnten(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinUnten = searchStein(xBreiteNeu, yHöheNeu + 1);
-			geschlageneSteine.add(steinUnten);
+			if(steinUnten.getFarbe() == Farbe.Blau) {
+				geschlageneSteineBlau.add(steinUnten);
+			} else {
+				geschlageneSteineRot.add(steinUnten);
+			}
 			spielfeld.remove(steinUnten);
 		}
 		
 		if(schlagbarLinks(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinLinks = searchStein(xBreiteNeu - 1, yHöheNeu);
-			geschlageneSteine.add(steinLinks);
+			if(steinLinks.getFarbe() == Farbe.Blau) {
+				geschlageneSteineBlau.add(steinLinks);
+			} else {
+				geschlageneSteineRot.add(steinLinks);
+			}
 			spielfeld.remove(steinLinks);
 		}
 		
 		if(schlagbarRechts(xBreiteNeu, yHöheNeu)) {
 			Spielstein steinRechts = searchStein(xBreiteNeu + 1, yHöheNeu);
-			geschlageneSteine.add(steinRechts);
+			if(steinRechts.getFarbe() == Farbe.Blau) {
+				geschlageneSteineBlau.add(steinRechts);
+			} else {
+				geschlageneSteineRot.add(steinRechts);
+			}
 			spielfeld.remove(steinRechts);
 		}
 	}
