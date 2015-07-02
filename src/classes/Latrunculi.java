@@ -8,6 +8,7 @@ import exceptions.SteinExistiertNichtException;
 
 public class Latrunculi {
 
+
 	// Attribute
 	private static String dateipfad = "src/output/Latrunculi.spielfeld";
 	private static Spielfeld spielfeld;
@@ -34,7 +35,7 @@ public class Latrunculi {
 		String[] farben = {"Blau","Rot"}; 
 		int runde = spielfeld.getRunden();
 		farbe = farben[(runde % 2)];
-		
+
 		System.out.println("Willkommen bei Latrunculi!");
 		
 		if (runde > 1) {

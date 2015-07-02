@@ -292,9 +292,14 @@ public class Spielfeld implements Serializable {
 			} else {
 				name = getNameRot();
 			}
-			System.out.println("Nice!");
+			System.out.println("--------------------------------------------------");
+			System.out.println("--------------------------------------------------\n");
+			System.out.print("\tFick die Henne, ");
 			System.out.println(name + " du hast gewonnen!\nDas Spiel ging "
-					+ getRunden() + ".");
+					+ getRunden() + " Runden.");
+			System.out.println("\n--------------------------------------------------");
+			System.out.println("--------------------------------------------------");
+
 			return true;
 		}
 
