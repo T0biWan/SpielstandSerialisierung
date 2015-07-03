@@ -11,6 +11,15 @@ public class Spielstein implements Serializable {
 	private Farbe farbe;
 	private int[] position = new int[2];
 	private static final long serialVersionUID = 11L;
+	private boolean geschlagen = false;
+
+	public boolean isGeschlagen() {
+		return geschlagen;
+	}
+
+	public void setGeschlagen(boolean geschlagen) {
+		this.geschlagen = geschlagen;
+	}
 
 	//Konstruktoren
 	public Spielstein(Farbe farbe, int xBreite, int yHöhe) {
