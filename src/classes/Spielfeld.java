@@ -20,11 +20,11 @@ public class Spielfeld implements Serializable {
 	// Konstruktoren
 	public Spielfeld() {
 		// Generiert Startzustand.
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 7; i++) {
 			spielfeld.add(new Spielstein(Farbe.Rot, i, 0));
 		}
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 7; i++) {
 			spielfeld.add(new Spielstein(Farbe.Blau, i, 6));
 		}
 
