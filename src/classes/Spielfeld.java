@@ -346,8 +346,7 @@ public class Spielfeld implements Serializable {
 	}
 	
 	public Boolean siegerehrung() {
-		partieZuEnde();
-		if(getSiegBlau() || getSiegRot()) {
+		if(hatJemandGewonnen()) {
 			System.out.println("--------------------------------------------------");
 			System.out.println("--------------------------------------------------\n");
 			System.out.print("\tFick die Henne, ");
@@ -375,6 +374,10 @@ public class Spielfeld implements Serializable {
 					+ "\n**************************************************\n";
 		}
 		return string;
+	}
+
+	public boolean hatJemandGewonnen() {
+		return getSiegBlau() | getSiegRot();
 	}
 
 }
