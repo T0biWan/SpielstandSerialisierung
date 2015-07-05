@@ -16,6 +16,7 @@ public class Spielstein implements Serializable {
 	//Primitive Datentypen sind von Hause aus serialisierbar
 	private Farbe farbe;
 	private int[] position = new int[2];
+	private static final long serialVersionUID = 11L;
 
 	//Konstruktoren
 	public Spielstein(Farbe farbe, int xBreite, int yHöhe) {
