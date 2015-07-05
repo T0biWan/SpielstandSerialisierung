@@ -74,9 +74,9 @@ public class Latrunculi {
 
 	/*
 	 * Zuerst wird der aktuelle Spielstand grafisch ausgegeben. Wenn die Züge legal sind, wird die while Schleife durch den Boolean nochmal abgebrochen.
-	 * Do-while Schleife bedeutet, Do wird immer beim ersten Mal ausgeführt und danach werden erst die Konsitionen überprüft. Die While Schleife fängt bei DO an.
+	 * Do-while Schleife bedeutet, Do wird immer beim ersten Mal ausgeführt und danach werden erst die Konditionen überprüft. Die While Schleife fängt bei DO an.
 	 * Nur wenn ein illegaler Zug gemacht wurde, wird die Schleife erneut durchlaufen, wenn ein legaler Zug gemacht wurde, wird die Schleife abgebrochen.
-	 * Wenn while endlich true ist, also ein legaler Zug gemacht wurde, dann werden die Spielfeld-Methoden aufgerufen. Dort wird der Stein auf die neuen Korrdinaten gesetzt,
+	 * Wenn while endlich true ist, also ein legaler Zug gemacht wurde, dann werden die Spielfeld-Methoden aufgerufen. Dort wird der Stein auf die neuen Koordinaten gesetzt,
 	 * es wird überprüft, ob ein Stein geschlagen werden kann, die aktuelle grafische Darstellung mit dem aktuellsten Zug, führt dies zum Ende der Partie? Und die Runden werden gezählt.
 	 * Es wird nochmal überprüft, ob jemand gewonnen hat und ob es zu einer Siegerehrung kommt. Danach ist der Zug beendet und der Scanner wird geschlossen. 
 	 */
@@ -157,7 +157,7 @@ public class Latrunculi {
 	 * neues Spiel in Startaufstellung konstruiert. Wir haben ja darüber geredet
 	 * es mit einer if-Abfrage zu machen, allerdings verlangen io-Streams immer
 	 * Exception Handling...? Das ist richtig aber die exception sollte nur
-	 * geschmissen weden, wenn eine Datei da ist aber nicht eingelesen werden
+	 * geschmissen werden, wenn eine Datei da ist aber nicht eingelesen werden
 	 * kann.
 	 */
 	
