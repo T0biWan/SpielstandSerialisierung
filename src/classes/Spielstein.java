@@ -4,6 +4,12 @@ import java.io.Serializable;
 
 import enums.Farbe;
 
+
+/*
+ * Spielstein hat zwei Attribute, ist serializable und enthält int array
+ * array ist zuständig für die Koordinaten x und y
+ * ToString Methode
+ */
 //Klasse soll abstract sein: Skript Seite 11
 public class Spielstein implements Serializable {
 	// Attribute müssen alle serialisierbar sein

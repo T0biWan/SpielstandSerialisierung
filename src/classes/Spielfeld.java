@@ -7,6 +7,12 @@ import java.util.List;
 
 import enums.Farbe;
 
+
+/*
+ * Generiert Startzustand
+ * Liste ist Reihe von Steinen mit x und y Werten
+ */
+
 public class Spielfeld implements Serializable{
 	//Attribute
 	List<Spielstein> spielfeld = new ArrayList();
@@ -26,6 +32,11 @@ public class Spielfeld implements Serializable{
 		
 	}
 	
+	/*Oberklasse
+	 * Koordinaten, alterStand und neuerStand wird mitgegeben
+	 * Suche nach Steinen, die diese alten Koordinaten haben, um diesen dann zu verändern
+	 * Nur wenn er ihn findet, wird ausgeführt
+	 */
 	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
 		for(Spielstein stein : spielfeld) {
 			if(stein.getXPosition() == xBreiteAlt && stein.getYPosition() == yHöheAlt) {
@@ -35,7 +46,9 @@ public class Spielfeld implements Serializable{
 		}
 	}
 	
-	//Methoden
+	// Methoden, gibt die gesamte Collection aus, also jeden Stein
+	// Steine haben auch toString, die Farbe und Position ausgibt
+	// im Endeffekt haben wir eine Liste mit jedem Stein und seiner Farbe
 	public String toString() {
 		String string = "**************************************************\n";
 		for(Spielstein index : spielfeld) {

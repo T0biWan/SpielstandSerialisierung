@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/*
+ * Es gibt Writer und Reader:
+ * Spielstein und Spielstein sind serializable
+ * int Array ist primitive Datenstruktur, also auch serializable
+ * write Spielfeld: schreibt den Zustand der Collection auf und schreiben in Datei
+ * read Spielfeld: aus der Datei lesen
+ */
 public class InputAndOutput {
 	//Methoden
 	public void writeSpielfeld(Spielfeld spielfeld) {
