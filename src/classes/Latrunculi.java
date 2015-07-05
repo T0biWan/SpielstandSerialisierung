@@ -2,8 +2,6 @@ package classes;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Latrunculi {
@@ -37,6 +35,8 @@ public class Latrunculi {
 			rundeBeginnen();
 			speicherSpielstand();
 		}
+		
+		System.out.println(spielfeld); // gibt eine Liste der aktuellen Steine an
 	}
 
 	
@@ -105,16 +105,13 @@ public class Latrunculi {
 			System.out.println();
 			
 			//Wurde ein regelwiedriger Zug getätigt, bekommt der Nutzer noch einmal die Spielregeln zum Lesen.
-			if(!spielfeld.spielzugLegal(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
+			if(!spielfeld.steinZiehen(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
 				getRules();
 				nochmal = true;
 			}
 			
 		} while(nochmal);
 
-		//Zug machen
-		spielfeld.steinZiehen(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu);
-		
 		//Schlagen
 		spielfeld.steinSchlagen(xBreiteNeu, yHöheNeu);
 		

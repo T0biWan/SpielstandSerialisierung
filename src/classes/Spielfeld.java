@@ -5,33 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import enums.Farbe;
-
+/*
+ * Diese Klasse 
+ */
 public class Spielfeld implements Serializable {
 	// Attribute
-	protected List<Spielstein>	spielfeld = new ArrayList();
+	protected List<Spielstein>	spielsteine = new ArrayList<>();
 	private static final long	serialVersionUID = 1L;
 	private String				nameBlau;
 	private String				nameRot;
 	private int					runden;
 	private Boolean				siegBlau = false;
 	private Boolean				siegRot = false;
-	protected List<Spielstein>	geschlageneSteineBlau = new ArrayList();
-	protected List<Spielstein>	geschlageneSteineRot = new ArrayList();
-
-	// Konstruktoren
+	/*
+	 * Konstruktoren
+	 * Hier wird ein neues Spielfeld im Startzustand erzeugt.
+	 * Die zwei For-Schleifen füllen das Spielfeld mit 7 blauen und 7 roten Steinen an den richtigen Stellen.
+	 */
 	public Spielfeld() {
-		// Generiert Startzustand.
 		for (int i = 0; i < 7; i++) {
-
-			spielfeld.add(new Spielstein(Farbe.Rot, i, 0));
+			spielsteine.add(new Spielstein(Farbe.Rot, i, 0));
 		}
 
 		for (int i = 0; i < 7; i++) {
-			spielfeld.add(new Spielstein(Farbe.Blau, i, 6));
+			spielsteine.add(new Spielstein(Farbe.Blau, i, 6));
 		}
 	}
 
-	// Methoden
+	// Methoden mit gettern und settern, um Spieler, Rundenzahl zu benennen etc.
 	public String getNameBlau() {
 		return nameBlau;
 	}
@@ -72,9 +73,29 @@ public class Spielfeld implements Serializable {
 		this.siegRot = siegreich;
 	}
 	
-	//Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
+	/* Oberklasse
+	 * Koordinaten, alterStand und neuerStand wird mitgegeben
+	 * Suche nach Steinen, die diese alten Koordinaten haben, um diesen dann zu verändern
+	 * Nur wenn er ihn findet und der Zug legal ist, wird er ausgeführt sonst wird false zurückgegeben
+	 */
+	public boolean steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
+		if(spielzugLegal(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
+			Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);
+			if(stein != null) {
+				stein.setXPosition(xBreiteNeu);
+				stein.setYPosition(yHöheNeu);
+				return true;
+			}	
+		}
+		return false;
+	}
+	
+	/*
+	 * Search geht die Collection durch und sucht nach einem Stein der die gegebenen Koordinaten, d.h. seine position enthält.
+	 * Diese Methode sucht einen Stein an den gesuchten Koordinaten und gibt ihn, wenn vorhanden, zurück.
+	 */
  	public Spielstein searchStein(int x, int y) {
-		for (Spielstein stein : spielfeld) {
+		for (Spielstein stein : spielsteine) {
 			if (stein.getXPosition() == x && stein.getYPosition() == y) {
 				return stein;
 			}
@@ -82,101 +103,105 @@ public class Spielfeld implements Serializable {
 		return null;
 	}
 	
+ 	/*
+ 	 * Kontrolle, ob ein Spielzug legal ist. 
+ 	 */
 	public Boolean spielzugLegal(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		try {
-			if (imWertebereich(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
-				if (spielerFarbeStimmt(xBreiteAlt, yHöheAlt)) {
-					if (feldFrei(xBreiteNeu, yHöheNeu)) {
-						if (xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
-							return true;
-						}
+		if (imWertebereich(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
+			if (spielerFarbeStimmt(xBreiteAlt, yHöheAlt)) {
+				if (feldFrei(xBreiteNeu, yHöheNeu)) {
+					if (xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
+						return true;
 					}
 				}
 			}
-		} catch (Exception e) {
-			return false;
 		}
+		
 		return false;
 	}
 	
+	/*
+	 * imWertebereich schaut immer, ob die Koordinaten zwischen 0 und 7 liegen.
+	 */
 	public Boolean imWertebereich(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		if(xBreiteAlt > -1 && xBreiteAlt < 8 && yHöheAlt > -1 && yHöheAlt < 8 && xBreiteNeu > -1 && xBreiteNeu < 8 && yHöheNeu > -1 && yHöheNeu < 8) {
-			return true;
-		}
-		return false;
+		return (xBreiteAlt > -1 && xBreiteAlt < 8 && yHöheAlt > -1 && yHöheAlt < 8 && xBreiteNeu > -1 && xBreiteNeu < 8 && yHöheNeu > -1 && yHöheNeu < 8);	
 	}
 	
-	public Boolean feldFrei (int xBreiteNeu, int yHöheNeu) {
-		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
-		if(stein == null) {
-			return true;
-		}
-		return false;
-	}
-
+	/*
+	 * Wir suchen den Stein, der bewegt werden soll, und schauen, ob wir uns in einer geraden oder ungeraden Runde befinden.
+	 * Sind wir in einer geraden, muss der Stein blau sein, für ungerade rot. Wir wollen nicht, dass roter Spieler blaue Steine bewegt.
+	 */
 	public Boolean spielerFarbeStimmt(int xBreiteAlt, int yHöheAlt) {
 		Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);
 		if(runden % 2 == 0) {
-			if(stein.getFarbe() == Farbe.Blau) {
-				return true;
-			}
+			return (stein.getFarbe() == Farbe.Blau);
 		} else {
-			if(stein.getFarbe() == Farbe.Rot) {
-				return true;
-			}
+			return (stein.getFarbe() == Farbe.Rot);
 		}
-		return false;
 	}
 	
-	/*Oberklasse
-	 * Koordinaten, alterStand und neuerStand wird mitgegeben
-	 * Suche nach Steinen, die diese alten Koordinaten haben, um diesen dann zu verändern
-	 * Nur wenn er ihn findet, wird ausgeführt
+	/*
+	 * Diese Methode guckt, ob das Feld, auf das der Stein bewegt werden soll, wirklich frei ist.
+	 * Die search-Methode gibt null bei leerem Feld zurück. 
 	 */
-	public void steinZiehen(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		if(spielzugLegal(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
-			Spielstein stein = searchStein(xBreiteAlt, yHöheAlt);
-			if(stein != null) {
-				stein.setXPosition(xBreiteNeu);
-				stein.setYPosition(yHöheNeu);
-			}
-			
-		}
+	public Boolean feldFrei (int xBreiteNeu, int yHöheNeu) {
+		return (searchStein(xBreiteNeu, yHöheNeu) == null);
 	}
-
-	public void grafischeDarstellung() {
-		//Erstelle die Tabelle für die geschlagenen Steine
+	
+	/*
+	 * Gibt die Anzahl der geschlagenen Steiner der gefragten Farbe zurück
+	 */
+	private int numGeschlagendeSteine(Farbe farbe) {
 		int zähler = 0;
-		System.out.print("R");
-		for (Spielstein index : geschlageneSteineBlau) {
-			Boolean gefunden = false;
-			if (index.getFarbe() == Farbe.Blau) {
-				System.out.print("|b");
-				gefunden = true;
+
+		for (Spielstein stein : spielsteine) {
+			if (stein.getFarbe() == farbe) {
+				if (stein.isGeschlagen()) {
+					zähler++;
+				}
 			}
-			if (!gefunden) {
+		}
+		return zähler;
+	}
+	
+	private void zeigeGeschlageneSteine(Farbe farbe) {
+		// Erstelle die Tabelle für die geschlagenen Steine
+		int zähler = numGeschlagendeSteine(farbe);
+		// holt den ersten Buchstaben der Farbe
+		String letter = (farbe == Farbe.Blau) ? "R" : "B";
+		String sletter = (farbe == Farbe.Blau) ? "b" : "r";
+		
+		System.out.print(letter);
+
+		for (int i = 0; i <= 6; i++) {
+			if (zähler > 0) {
+				System.out.print("|" + sletter); // macht einen kleinbuchstaben daraus
+				zähler--;
+			} else {
 				System.out.print("| ");
 			}
-			zähler++;
-		}
-		while (zähler < 7) {
-			System.out.print("| ");
-			zähler++;
-		}
-		if (zähler > 6) {
-			zähler = 0;
 		}
 		System.out.println("|");
-		
-		//Erstelle Spielfeld
+	}
+	
+	/*
+	 * Ausgabe der Grafischen Oberfläche des aktuellen Spielstandes 
+	 */
+	public void grafischeDarstellung() {
+		//Erstelle die Tabelle für die geschlagenen Steine
+		zeigeGeschlageneSteine(Farbe.Blau);
+
+		// Erstelle Spielfeld
+		// die zwei for-Schleifen gehen unsere Liste der Spielsteine durch und setzen die Spielsteine in das Feld.
+		// sollte in einem Feld kein Stein sein wird es leer ausgegeben.
 		System.out.println("****************");
 		System.out.println("****************");
-		System.out.println("#|0|1|2|3|4|5|6|");
+		System.out.println("#|0|1|2|3|4|5|6|"); // x-Koordinate
 		for (int j = 0; j < 7; j++) {
-			System.out.print(j);
+			System.out.print(j); // y-Koordinate
 			for (int i = 0; i < 7; i++) {
 				Boolean gefunden = false;
-				for (Spielstein stein : spielfeld) {
+				for (Spielstein stein : spielsteine) {
 					if (stein.getXPosition() == i && stein.getYPosition() == j) {
 						String farbe = (stein.getFarbe() == Farbe.Rot) ? "r" : "b";
 						System.out.print("|"+ farbe);
@@ -192,175 +217,156 @@ public class Spielfeld implements Serializable {
 		System.out.println("****************");
 		System.out.println("****************");
 		
-		// Erstelle die Tabelle für die geschlagenen Steine
-		System.out.print("B");
-		for (Spielstein index : geschlageneSteineRot) {
-			Boolean gefunden = false;
-			if (index.getFarbe() == Farbe.Rot) {
-				System.out.print("|r");
-				gefunden = true;
-			}
-			if (!gefunden) {
-				System.out.print("| ");
-			}
-			zähler++;
-		}
-		while (zähler < 7) {
-			System.out.print("| ");
-			zähler++;
-		}
-		if (zähler > 6) {
-			zähler = 0;
-		}
-		System.out.println("|");
+		//Erstelle die Tabelle für die geschlagenen Steine
+		zeigeGeschlageneSteine(Farbe.Rot);
 		System.out.println();
 	}
-
-	//Es gibt sicherlich eine elegantere Lösung, zum Beispiel innerhalb der Search Methode darauf reagieren, das kein Stein gefunden wurde...
-	public boolean schlagbarOben(int xBreiteNeu, int yHöheNeu) {
-		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
-		if(stein != null) {
-			Farbe steinfarbe = stein.getFarbe();
-			Spielstein steinOben = searchStein(xBreiteNeu, yHöheNeu - 1);
-			if(steinOben != null) {
-				Spielstein steinObenOben = searchStein(xBreiteNeu, yHöheNeu - 2);
-				if(steinObenOben != null) {
-					if(steinfarbe != steinOben.getFarbe()) {
-						if(steinfarbe == steinObenOben.getFarbe()) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
 	
-	public boolean schlagbarUnten(int xBreiteNeu, int yHöheNeu) {
-		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
-		if(stein != null) {
-			Farbe steinfarbe = stein.getFarbe();
-			Spielstein steinUnten = searchStein(xBreiteNeu, yHöheNeu + 1);
-			if(steinUnten != null) {
-				Spielstein steinUntenUnten = searchStein(xBreiteNeu, yHöheNeu + 2);
-				if(steinUntenUnten != null) {
-					if(steinfarbe != steinUnten.getFarbe()) {
-						if(steinfarbe == steinUntenUnten.getFarbe()) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	public boolean schlagbarLinks(int xBreiteNeu, int yHöheNeu) {
-		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
-		if(stein != null) {
-			Farbe steinfarbe = stein.getFarbe();
-			Spielstein steinLinks = searchStein(xBreiteNeu - 1, yHöheNeu);
-			if(steinLinks != null) {
-				Spielstein steinLinksLinks = searchStein(xBreiteNeu - 2, yHöheNeu);
-				if(steinLinksLinks != null) {
-					if(steinfarbe != steinLinks.getFarbe()) {
-						if(steinfarbe == steinLinksLinks.getFarbe()) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	public boolean schlagbarRechts(int xBreiteNeu, int yHöheNeu) {
-		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
-		if(stein != null) {
-			Farbe steinfarbe = stein.getFarbe();
-			Spielstein steinRechts = searchStein(xBreiteNeu + 1, yHöheNeu);
-			if(steinRechts != null) {
-				Spielstein steinRechtsRechts = searchStein(xBreiteNeu + 2, yHöheNeu);
-				if(steinRechtsRechts != null) {
-					if(steinfarbe != steinRechts.getFarbe()) {
-						if(steinfarbe == steinRechtsRechts.getFarbe()) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-
+	/*
+	 * Wir schauen, ob ein schlagbarer Stein existiert.
+	 * Wenn ja, wird der Stein "geschlagen" gesetzt (true) und aus der Spielstein-Liste herausgenommen (remove).
+	 *  
+	 */
 	public void steinSchlagen(int xBreiteNeu, int yHöheNeu) {
-		if(schlagbarOben(xBreiteNeu, yHöheNeu)) {
-			Spielstein steinOben = searchStein(xBreiteNeu, yHöheNeu - 1);
-			if(steinOben.getFarbe() == Farbe.Blau) {
-				geschlageneSteineBlau.add(steinOben);
-			} else {
-				geschlageneSteineRot.add(steinOben);
-			}
-			spielfeld.remove(steinOben);
+		
+		Spielstein steinOben = schlagbarOben(xBreiteNeu, yHöheNeu);
+		if(steinOben != null) {
+			steinOben.setGeschlagen(true);
+			spielsteine.remove(steinOben);
 		}
 		
-		if(schlagbarUnten(xBreiteNeu, yHöheNeu)) {
-			Spielstein steinUnten = searchStein(xBreiteNeu, yHöheNeu + 1);
-			if(steinUnten.getFarbe() == Farbe.Blau) {
-				geschlageneSteineBlau.add(steinUnten);
-			} else {
-				geschlageneSteineRot.add(steinUnten);
-			}
-			spielfeld.remove(steinUnten);
+		Spielstein steinUnten = schlagbarOben(xBreiteNeu, yHöheNeu);
+		if(steinUnten != null) {
+			steinUnten.setGeschlagen(true);
+			spielsteine.remove(steinUnten);
 		}
 		
-		if(schlagbarLinks(xBreiteNeu, yHöheNeu)) {
-			Spielstein steinLinks = searchStein(xBreiteNeu - 1, yHöheNeu);
-			if(steinLinks.getFarbe() == Farbe.Blau) {
-				geschlageneSteineBlau.add(steinLinks);
-			} else {
-				geschlageneSteineRot.add(steinLinks);
-			}
-			spielfeld.remove(steinLinks);
+		Spielstein steinLinks = schlagbarOben(xBreiteNeu, yHöheNeu);
+		if(steinLinks != null) {
+			steinLinks.setGeschlagen(true);
+			spielsteine.remove(steinLinks);
 		}
 		
-		if(schlagbarRechts(xBreiteNeu, yHöheNeu)) {
-			Spielstein steinRechts = searchStein(xBreiteNeu + 1, yHöheNeu);
-			if(steinRechts.getFarbe() == Farbe.Blau) {
-				geschlageneSteineBlau.add(steinRechts);
-			} else {
-				geschlageneSteineRot.add(steinRechts);
-			}
-			spielfeld.remove(steinRechts);
+		Spielstein steinRechts = schlagbarOben(xBreiteNeu, yHöheNeu);
+		if(steinRechts != null) {
+			steinRechts.setGeschlagen(true);
+			spielsteine.remove(steinRechts);
 		}
 	}
+
+	/*
+	 * Vorgehen: Holen den gesetzten Stein (neue K.) und holen uns seine Farbe.
+	 * Dann schauen wir, ob darüber (y = -1) ein Stein der Gegnerfarbe ist.
+	 * Sollte dies stimmen, schauen wir, ob es darüber (y = -2) einen Stein unserer Farbe gibt.
+	 * Wenn ja, gibt die Methode den schlagbaren Stein zurück. Die anderen Methoden machen dasselbe, nur in die anderen Richtungen. (Unten, Links und Rechts).
+	 */
+	public Spielstein schlagbarOben(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein nebenliegenderStein = searchStein(xBreiteNeu, yHöheNeu - 1);
+			if(nebenliegenderStein != null) {
+				if(steinfarbe != nebenliegenderStein.getFarbe()) {
+					Spielstein nebenNebenliegenderStein = searchStein(xBreiteNeu, yHöheNeu - 2);
+					if(nebenNebenliegenderStein != null) {
+							if(steinfarbe == nebenNebenliegenderStein.getFarbe()) {
+								return nebenliegenderStein;
+							}
+					}
+				}
+			}
+		}
+		return null;
+	}
 	
+	public Spielstein schlagbarUnten(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein nebenliegenderStein = searchStein(xBreiteNeu, yHöheNeu + 1);
+			if(nebenliegenderStein != null) {
+				if(steinfarbe != nebenliegenderStein.getFarbe()) {
+					Spielstein nebenNebenliegenderStein = searchStein(xBreiteNeu, yHöheNeu + 2);
+					if(nebenNebenliegenderStein != null) {
+							if(steinfarbe == nebenNebenliegenderStein.getFarbe()) {
+								return nebenliegenderStein;
+							}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Spielstein schlagbarLinks(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein nebenliegenderStein = searchStein(xBreiteNeu -1 , yHöheNeu);
+			if(nebenliegenderStein != null) {
+				if(steinfarbe != nebenliegenderStein.getFarbe()) {
+					Spielstein nebenNebenliegenderStein = searchStein(xBreiteNeu -2, yHöheNeu);
+					if(nebenNebenliegenderStein != null) {
+							if(steinfarbe == nebenNebenliegenderStein.getFarbe()) {
+								return nebenliegenderStein;
+							}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Spielstein schlagbarRechts(int xBreiteNeu, int yHöheNeu) {
+		Spielstein stein = searchStein(xBreiteNeu, yHöheNeu);
+		if(stein != null) {
+			Farbe steinfarbe = stein.getFarbe();
+			Spielstein nebenliegenderStein = searchStein(xBreiteNeu +1 , yHöheNeu);
+			if(nebenliegenderStein != null) {
+				if(steinfarbe != nebenliegenderStein.getFarbe()) {
+					Spielstein nebenNebenliegenderStein = searchStein(xBreiteNeu +2, yHöheNeu);
+					if(nebenNebenliegenderStein != null) {
+							if(steinfarbe == nebenNebenliegenderStein.getFarbe()) {
+								return nebenliegenderStein;
+							}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	/*
+	 * Sind die geschlagenen Steine größer als 5?
+	 * Wenn ja, wird die Variable siegerRot oder Blau auf true gesetzt. 
+	 */
 	public void partieZuEnde() {
-		if(geschlageneSteineBlau.size() > 5) {
+		if(numGeschlagendeSteine(Farbe.Blau) > 5) {
 			setSiegBlau(true);
 		}
 		
-		if(geschlageneSteineRot.size() > 5) {
+		if(numGeschlagendeSteine(Farbe.Rot)  > 5) {
 			setSiegRot(true);
 		}
 	}
 	
-	public Boolean siegerehrung() {
-		if(hatJemandGewonnen()) {
-			System.out.println("--------------------------------------------------");
-			System.out.println("--------------------------------------------------\n");
-			System.out.print("\tFick die Henne, ");
-			if(getSiegBlau()) {
-				System.out.print(getNameBlau());
-			} else if (getSiegRot()) {
-				System.out.print(getNameRot());
-			}
-			System.out.println(" du hast gewonnen!\n\tDas Spiel ging " + getRunden() + " Runden.");
-			System.out.println("\n--------------------------------------------------");
-			System.out.println("--------------------------------------------------");
-			return true;
+	/*
+	 * Gibt eine Siegerehrung aus. Nur eine Textnachricht. Ob jemand gewonnen hat, wird in Latrunculi in der Main überprüft.
+	 */
+	public void siegerehrung() {
+		
+		String name = null;
+		
+		System.out.println("--------------------------------------------------");
+		System.out.println("--------------------------------------------------\n");
+		System.out.print("\tFick die Henne, ");
+		if(getSiegBlau()) {
+			name = getNameBlau();
+		} else if (getSiegRot()) {
+			name = getNameRot();
 		}
-		return false;
+		System.out.println(name + " hat gewonnen!\n\tDas Spiel ging " + getRunden() + " Runden.");
+		System.out.println("\n--------------------------------------------------");
+		System.out.println("--------------------------------------------------");
 	}
 
 	// Methoden, gibt die gesamte Collection aus, also jeden Stein
@@ -369,13 +375,16 @@ public class Spielfeld implements Serializable {
 
 	public String toString() {
 		String string = "**************************************************\n";
-		for (Spielstein index : spielfeld) {
+		for (Spielstein index : spielsteine) {
 			string = string + index.toString()
 					+ "\n**************************************************\n";
 		}
 		return string;
 	}
 
+	/*
+	 * schaut ob siegBlau oder Rot true ist, dann hätte dieser gewonnen.
+	 */
 	public boolean hatJemandGewonnen() {
 		return getSiegBlau() | getSiegRot();
 	}

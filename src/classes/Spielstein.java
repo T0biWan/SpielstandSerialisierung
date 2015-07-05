@@ -6,7 +6,7 @@ import enums.Farbe;
 
 
 /*
- * Spielstein hat zwei Attribute, ist serializable und enthält int array
+ * Spielstein (ADT) hat drei Attribute, ist serializable und enthält int array
  * array ist zuständig für die Koordinaten x und y
  * ToString Methode
  */
@@ -16,25 +16,44 @@ public class Spielstein implements Serializable {
 	//Primitive Datentypen sind von Hause aus serialisierbar
 	private Farbe farbe;
 	private int[] position = new int[2];
+	private boolean geschlagen = false;
 	private static final long serialVersionUID = 11L;
 
-	//Konstruktoren
+	//Konstruktor mit Werteingabe für x und y
 	public Spielstein(Farbe farbe, int xBreite, int yHöhe) {
 		setFarbe(farbe);
 		this.position[0] = xBreite;
 		this.position[1] = yHöhe;
 	}
 	
+	//Konstruktor mit Werteingabe für x und y als array
 	public Spielstein(Farbe farbe, int[] position) {
 		setFarbe(farbe);
 		setPosition(position);
 	}
 	
+	// Kopierkonstruktor
+	public Spielstein(Spielstein stein) {
+		setFarbe(stein.getFarbe());
+		setPosition(stein.getPosition());
+		setGeschlagen(stein.isGeschlagen());
+	}
+	
+	// Standartkonstruktor
 	public Spielstein() {
 		
 	}
 	
 	//Getter/Setter
+	
+	public boolean isGeschlagen() {
+		return geschlagen;
+	}
+
+	public void setGeschlagen(boolean geschlagen) {
+		this.geschlagen = geschlagen;
+	}
+	
 	public Farbe getFarbe() {
 		return farbe;
 	}
@@ -69,6 +88,6 @@ public class Spielstein implements Serializable {
 	
 	//toString
 	public String toString() {
-		return "Spielstein:\nFarbe:\t\t"+getFarbe()+"\nPosition:\t("+position[0]+"|"+position[1]+")";
+		return "Spielstein:\nFarbe:\t\t"+getFarbe()+"\ngeschlagen:\t"+isGeschlagen()+"\nPosition:\t("+position[0]+"|"+position[1]+")";
 	}
 }
