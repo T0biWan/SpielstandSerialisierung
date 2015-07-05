@@ -10,7 +10,7 @@ public class Latrunculi {
 	//Methoden
 	public static void main(String [] args) {
 		//Attribute
-		String dateipfad = "output/latrunculi.spielfeld";
+		String dateipfad = "src/output/latrunculi.spielfeld";
 		Spielfeld spielfeld;
 		InputAndOutput io = new InputAndOutput();
 		Scanner scanner = new Scanner(System.in);
