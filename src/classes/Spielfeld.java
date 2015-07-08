@@ -24,18 +24,14 @@ public class Spielfeld implements Serializable {
 	 * Die zwei For-Schleifen füllen das Spielfeld mit 7 blauen und 7 roten Steinen an den richtigen Stellen.
 	 */
 	public Spielfeld() {
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 7; i++) {
 			spielsteine.add(new Spielstein(Farbe.Rot, i, 0));
 		}
-		
-		spielsteine.add(new Spielstein(Farbe.Rot, 2, 3));
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 7; i++) {
 			spielsteine.add(new Spielstein(Farbe.Blau, i, 6));
 		}
-		
-		spielsteine.add(new Spielstein(Farbe.Blau, 2, 4));
-		spielsteine.add(new Spielstein(Farbe.Blau, 3, 2));
+
 	}
 
 	// Methoden mit gettern und settern, um Spieler, Rundenzahl zu benennen etc.
