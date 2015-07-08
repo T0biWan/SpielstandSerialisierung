@@ -36,7 +36,7 @@ public class Latrunculi {
 			speicherSpielstand();
 		}
 		
-		System.out.println(spielfeld); // gibt eine Liste der aktuellen Steine an
+		//System.out.println(spielfeld); // gibt eine Liste der aktuellen Steine an
 	}
 
 	

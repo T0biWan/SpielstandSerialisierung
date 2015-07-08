@@ -17,19 +17,25 @@ public class Spielfeld implements Serializable {
 	private int					runden;
 	private Boolean				siegBlau = false;
 	private Boolean				siegRot = false;
+	private final int 			MAX	= 7;
 	/*
 	 * Konstruktoren
 	 * Hier wird ein neues Spielfeld im Startzustand erzeugt.
 	 * Die zwei For-Schleifen füllen das Spielfeld mit 7 blauen und 7 roten Steinen an den richtigen Stellen.
 	 */
 	public Spielfeld() {
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 6; i++) {
 			spielsteine.add(new Spielstein(Farbe.Rot, i, 0));
 		}
+		
+		spielsteine.add(new Spielstein(Farbe.Rot, 2, 3));
 
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 5; i++) {
 			spielsteine.add(new Spielstein(Farbe.Blau, i, 6));
 		}
+		
+		spielsteine.add(new Spielstein(Farbe.Blau, 2, 4));
+		spielsteine.add(new Spielstein(Farbe.Blau, 3, 2));
 	}
 
 	// Methoden mit gettern und settern, um Spieler, Rundenzahl zu benennen etc.
@@ -95,11 +101,13 @@ public class Spielfeld implements Serializable {
 	 * Diese Methode sucht einen Stein an den gesuchten Koordinaten und gibt ihn, wenn vorhanden, zurück.
 	 */
  	public Spielstein searchStein(int x, int y) {
-		for (Spielstein stein : spielsteine) {
-			if (stein.getXPosition() == x && stein.getYPosition() == y) {
-				return stein;
+ 		if (imWertebereich(x, y)){
+			for (Spielstein stein : spielsteine) {
+				if (stein.getXPosition() == x && stein.getYPosition() == y) {
+					return stein;
+				}
 			}
-		}
+ 		}
 		return null;
 	}
 	
@@ -107,7 +115,7 @@ public class Spielfeld implements Serializable {
  	 * Kontrolle, ob ein Spielzug legal ist. 
  	 */
 	public Boolean spielzugLegal(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		if (imWertebereich(xBreiteAlt, yHöheAlt, xBreiteNeu, yHöheNeu)) {
+		if (imWertebereich(xBreiteAlt, yHöheAlt) && imWertebereich(xBreiteNeu, yHöheNeu)) {
 			if (spielerFarbeStimmt(xBreiteAlt, yHöheAlt)) {
 				if (feldFrei(xBreiteNeu, yHöheNeu)) {
 					if (xBreiteNeu == (xBreiteAlt - 1) || xBreiteNeu == (xBreiteAlt + 1) || yHöheNeu == (yHöheAlt - 1) || yHöheNeu == (yHöheAlt + 1)) {
@@ -123,8 +131,8 @@ public class Spielfeld implements Serializable {
 	/*
 	 * imWertebereich schaut immer, ob die Koordinaten zwischen 0 und 7 liegen.
 	 */
-	public Boolean imWertebereich(int xBreiteAlt, int yHöheAlt, int xBreiteNeu, int yHöheNeu) {
-		return (xBreiteAlt > -1 && xBreiteAlt < 8 && yHöheAlt > -1 && yHöheAlt < 8 && xBreiteNeu > -1 && xBreiteNeu < 8 && yHöheNeu > -1 && yHöheNeu < 8);	
+	public Boolean imWertebereich(int xBreite, int yHöhe) {
+		return (xBreite > -1 && xBreite <= MAX && yHöhe > -1 && yHöhe <= MAX);	
 	}
 	
 	/*
@@ -202,7 +210,7 @@ public class Spielfeld implements Serializable {
 			for (int i = 0; i < 7; i++) {
 				Boolean gefunden = false;
 				for (Spielstein stein : spielsteine) {
-					if (stein.getXPosition() == i && stein.getYPosition() == j) {
+					if (stein.getXPosition() == i && stein.getYPosition() == j && !stein.isGeschlagen()) {
 						String farbe = (stein.getFarbe() == Farbe.Rot) ? "r" : "b";
 						System.out.print("|"+ farbe);
 						gefunden = true;
@@ -232,25 +240,21 @@ public class Spielfeld implements Serializable {
 		Spielstein steinOben = schlagbarOben(xBreiteNeu, yHöheNeu);
 		if(steinOben != null) {
 			steinOben.setGeschlagen(true);
-			spielsteine.remove(steinOben);
 		}
 		
-		Spielstein steinUnten = schlagbarOben(xBreiteNeu, yHöheNeu);
+		Spielstein steinUnten = schlagbarUnten(xBreiteNeu, yHöheNeu);
 		if(steinUnten != null) {
 			steinUnten.setGeschlagen(true);
-			spielsteine.remove(steinUnten);
 		}
 		
-		Spielstein steinLinks = schlagbarOben(xBreiteNeu, yHöheNeu);
+		Spielstein steinLinks = schlagbarLinks(xBreiteNeu, yHöheNeu);
 		if(steinLinks != null) {
 			steinLinks.setGeschlagen(true);
-			spielsteine.remove(steinLinks);
 		}
 		
-		Spielstein steinRechts = schlagbarOben(xBreiteNeu, yHöheNeu);
+		Spielstein steinRechts = schlagbarRechts(xBreiteNeu, yHöheNeu);
 		if(steinRechts != null) {
 			steinRechts.setGeschlagen(true);
-			spielsteine.remove(steinRechts);
 		}
 	}
 
@@ -288,9 +292,9 @@ public class Spielfeld implements Serializable {
 				if(steinfarbe != nebenliegenderStein.getFarbe()) {
 					Spielstein nebenNebenliegenderStein = searchStein(xBreiteNeu, yHöheNeu + 2);
 					if(nebenNebenliegenderStein != null) {
-							if(steinfarbe == nebenNebenliegenderStein.getFarbe()) {
-								return nebenliegenderStein;
-							}
+						if(steinfarbe == nebenNebenliegenderStein.getFarbe()) {
+							return nebenliegenderStein;
+						}
 					}
 				}
 			}
